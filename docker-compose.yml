@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app_a:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    image: test:v1
+    ports:
+      - "8080:8080"
+    networks:
+      - test  
+
+  mariadb:
+    image: mariadb
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=0000
+      - MYSQL_DATABASE=demo
+    volumes:
+      - ./data:/var/lib/mysql
+    networks:
+      - test
+
+networks:
+  test:
+    driver: bridge
