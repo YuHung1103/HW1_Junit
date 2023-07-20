@@ -68,7 +68,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     	//請求的標頭中獲取名為"Authorization"的值
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7); // 去除 "Bearer " 字串取得 JWT token
+            return bearerToken.substring(7); //去除"Bearer "字串取得JWT token
         }
         return null;
     }

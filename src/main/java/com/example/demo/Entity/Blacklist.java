@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-//對應到只到的table
+//對應到指到的table
 @Getter
 @Setter
 @Entity
