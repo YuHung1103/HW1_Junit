@@ -1,27 +1,31 @@
-version: '3'
+
 services:
   app_a:
     build:
-      context: ./
-      dockerfile: dockerfile
-    image: test
+      context: ./ #前的目錄中尋找 Dockerfile 檔案
+      dockerfile: dockerfile #執行dockerfile
+    image: test #使用的image
     ports:
-      - "8080:8080"
-    networks:
+      - "8080:8080" #主機端對容器端
+    networks: #設定網路
       - test  
 
   mariadb:
     image: mariadb
     ports:
       - "3308:3306"
-    environment:
+    environment: #設定環境變數
       - MYSQL_ROOT_PASSWORD=0000
       - MYSQL_DATABASE=demo
-    volumes:
+    volumes: #會把容器中的/var/lib/mysql資料放入主機的./data
       - ./data:/var/lib/mysql
     networks:
       - test
 
-networks:
+networks: #讓這個容器類的網路相同
   test:
-    driver: bridge
+    driver: bridge #使用bridge網路驅動程式
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16 #把IP定住
