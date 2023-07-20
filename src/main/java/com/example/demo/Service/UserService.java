@@ -94,8 +94,17 @@ public class UserService {
 		if(!Password.equals(comfirmPassword)) {
 			return "Password not match";
 		}
+		//不能有相同的帳號名稱
 		else if(oldUser != null) {
 			return "Please change account";
+		}
+		//密碼為4~16位數
+		else if(Password.length()<4 || Password.length()>16) {
+			return "Password is 4 to 16 digits";
+		}
+		//電話號為9-00-000-000~9-99-999-999區間
+		else if(Phone < 900000000 || Phone > 999999999) {
+			return "Phone form is wrong";
 		}
 		User user = new User();
 		user.setUserAccount(Account);
