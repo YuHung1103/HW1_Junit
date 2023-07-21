@@ -136,7 +136,6 @@ public class UserService {
         boolean exists = blacklistRepository.existsByAccount(userAccount);
         User user = userRepository.findByUserAccount(userAccount);
 		if(!exists) {
-			
 			Blacklist Buser = new Blacklist();
 			Buser.setAccount(user.getUserAccount());
 	        blacklistRepository.save(Buser);
