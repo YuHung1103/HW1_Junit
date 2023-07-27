@@ -2,61 +2,65 @@ package com.example.demo.Jwt;
 
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtTokenGenerator {
 
+	@Autowired
+	private RedisTemplate<String, String> redisTemplate;
+    private final String REDIS_KEY_PREFIX = "jwt:";
     private final String secretKey;
-    private final long expirationTime;
+	Date now = new Date();
+    
+	public JwtTokenGenerator(@Value("${jwt.secretKey}") String secretKey) {
+		this.secretKey = secretKey;
+	}
 
-    public JwtTokenGenerator(@Value("${jwt.secretKey}") String secretKey, 
-    		@Value("${jwt.expirationTime}") long expirationTime) {
-        this.secretKey = secretKey;
-        this.expirationTime = expirationTime;
-    }
-
-    //生成Jwt token
-    public String generateToken(String userAccount) {
-        Date now = new Date();
-        //到期時間
-        Date expiration = new Date(now.getTime() + expirationTime);
-
-        JwtBuilder jwtBuilder = Jwts.builder()
+    //生成JWT Token並存儲到Redis中
+    public String generateJwtToken(String userAccount) {
+        String jwtToken = Jwts.builder()
                 .setSubject(userAccount)
                 //簽發時間
                 .setIssuedAt(now)
-                //到期時間
-                .setExpiration(expiration)
-                //指定簽名算法和金鑰
-                .signWith(SignatureAlgorithm.HS256, secretKey);
-        //壓縮
-        return jwtBuilder.compact();
-    }
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
 
-    //token是不是有效
-    public boolean validateToken(String token) {
-        try {
-        	//解析token
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        //將JWT Token存儲到Redis，設置過期時間
+        String redisKey = REDIS_KEY_PREFIX + userAccount;
+        redisTemplate.opsForValue().set(redisKey, jwtToken, 30, TimeUnit.MINUTES); //30分鐘過期
+        return jwtToken;
     }
-
-    public String getSubjectFromToken(String token) {
-    	//用來取得token中的payload
-        Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-        //取得payload中的subject
-        return claims.getSubject();
-    }
+    
+	 //token是不是有效
+	 public boolean validateToken(String token) {
+		//先拿到redis中的key
+	    String redisKey = REDIS_KEY_PREFIX + getSubjectFromToken(token);
+	    //再用key來找到token
+	    String storedToken = redisTemplate.opsForValue().get(redisKey);
+	    return token.equals(storedToken);
+	 }
+	
+	 public String getSubjectFromToken(String token) {
+	  	 //用來取得token中的payload
+	     Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+	     //取得payload中的subject
+	     return claims.getSubject();
+	 }
+	 
+	 public void deleteToken(String userAccount) {
+		//先拿到redis中的key
+		String redisKey = REDIS_KEY_PREFIX + userAccount;
+		redisTemplate.delete(redisKey);
+	 }
 }
 

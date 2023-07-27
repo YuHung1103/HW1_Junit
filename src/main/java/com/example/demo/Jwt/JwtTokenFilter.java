@@ -6,8 +6,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.demo.Dao.BlacklistRepository;
-import com.example.demo.Entity.Blacklist;
 import com.example.demo.Service.UserService;
 
 import jakarta.servlet.FilterChain;
@@ -22,12 +20,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtTokenGenerator jwtTokenGenerator;
     private final UserService userService;
-    private final BlacklistRepository blacklistRepository;
 
-    public JwtTokenFilter(JwtTokenGenerator jwtTokenGenerator, UserService userService, BlacklistRepository blacklistRepository) {
+    public JwtTokenFilter(JwtTokenGenerator jwtTokenGenerator, UserService userService) {
         this.jwtTokenGenerator = jwtTokenGenerator;
         this.userService = userService;
-        this.blacklistRepository = blacklistRepository;
     }
 
     @Override
@@ -37,26 +33,23 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         if (token != null && jwtTokenGenerator.validateToken(token)) {
         	//取得subject(在此為帳號)
             String subject = jwtTokenGenerator.getSubjectFromToken(token);
-            Blacklist user = blacklistRepository.findByAccount(subject);
-            if(user == null) {
-            	// 檢查使用者角色是否為 "admin"
-                if (isAdminUser(subject)) {
-                	//放使用者主體、憑證跟授權資料
-                    Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    		subject, 
-                    		null,
-                            Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
-                    //存儲當前使用者的身份驗證資訊的容器
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-                // 檢查使用者角色是否為 "user"
-                else if (isUserUser(subject)) {
-                    Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    		subject, 
-                    		null,
-                            Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
+        	// 檢查使用者角色是否為 "admin"
+            if (isAdminUser(subject)) {
+            	//放使用者主體、憑證跟授權資料
+                Authentication authentication = new UsernamePasswordAuthenticationToken(
+                		subject, 
+                		null,
+                        Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")));
+                //存儲當前使用者的身份驗證資訊的容器
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            // 檢查使用者角色是否為 "user"
+            else if (isUserUser(subject)) {
+                Authentication authentication = new UsernamePasswordAuthenticationToken(
+                		subject, 
+                		null,
+                        Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
         //將請求和響應傳遞給下一個過濾器或Servlet

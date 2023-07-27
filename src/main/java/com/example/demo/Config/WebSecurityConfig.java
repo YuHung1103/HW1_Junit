@@ -12,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.example.demo.Dao.BlacklistRepository;
 import com.example.demo.Jwt.JwtTokenFilter;
 import com.example.demo.Jwt.JwtTokenGenerator;
 import com.example.demo.Service.UserService;
@@ -23,12 +22,10 @@ public class WebSecurityConfig {
 
 	private final JwtTokenGenerator jwtTokenGenerator;
 	private final UserService userService;
-	private final BlacklistRepository blacklistRepository;
     
-    public WebSecurityConfig(JwtTokenGenerator jwtTokenGenerator, UserService userService, BlacklistRepository blacklistRepository) {
+    public WebSecurityConfig(JwtTokenGenerator jwtTokenGenerator, UserService userService) {
         this.jwtTokenGenerator = jwtTokenGenerator;
         this.userService = userService;
-        this.blacklistRepository = blacklistRepository;
     }
     
 	@Bean
@@ -37,6 +34,7 @@ public class WebSecurityConfig {
 		//HTTP請求規則
 		.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
+				.requestMatchers("/redis").permitAll()
                 .requestMatchers(HttpMethod.POST,"/register").permitAll()
                 .requestMatchers(HttpMethod.PUT,"/forget").permitAll()
                 .requestMatchers(HttpMethod.POST,"/login").permitAll()
@@ -52,7 +50,7 @@ public class WebSecurityConfig {
 	//建立一個JwtTokenFilter的方法
 	@Bean
     public JwtTokenFilter jwtTokenFilter() throws Exception {
-        return new JwtTokenFilter(jwtTokenGenerator, userService, blacklistRepository);
+        return new JwtTokenFilter(jwtTokenGenerator, userService);
     }
 	
 	//不知道用法，也不知道為什麼加入這兩個方法後，就不會自動生成安全碼

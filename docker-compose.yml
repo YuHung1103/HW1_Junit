@@ -1,17 +1,62 @@
 
+# services:
+#   app_a:
+#     build:
+#       context: ./ #前的目錄中尋找 Dockerfile 檔案
+#       dockerfile: dockerfile #執行dockerfile
+#     image: red #使用的image
+#     ports:
+#       - "8080:8080" #主機端對容器端
+#     networks: #設定網路
+#       - red  
+
+#   mariadb:
+#     image: mariadb
+#     ports:
+#       - "3308:3306"
+#     environment: #設定環境變數
+#       - MYSQL_ROOT_PASSWORD=0000
+#       - MYSQL_DATABASE=demo
+#     volumes: #會把容器中的/var/lib/mysql資料放入主機的./data
+#       - ./data:/var/lib/mysql
+#     networks:
+#       - red
+
+#   redis:
+#     image: redis
+#     ports:
+#       - "6379:6379"
+#     networks:
+#       - red
+
+# networks: #讓這個容器類的網路相同
+#   red:
+#     driver: bridge #使用bridge網路驅動程式
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: 172.10.0.0/16 #把IP定住
+
+version: '3.7'
 services:
   app_a:
     build:
       context: ./ #前的目錄中尋找 Dockerfile 檔案
       dockerfile: dockerfile #執行dockerfile
-    image: test #使用的image
+    image: red:v2 #使用的image
     ports:
       - "8080:8080" #主機端對容器端
-    networks: #設定網路
-      - test  
-
+    environment: #設定環境變數
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://mariadb:3306/demo
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=0000
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+    depends_on: #會先開啟mariadb跟redis
+      - mariadb
+      - redis
   mariadb:
-    image: mariadb
+    image: mariadb:11.0.2
     ports:
       - "3308:3306"
     environment: #設定環境變數
@@ -19,13 +64,9 @@ services:
       - MYSQL_DATABASE=demo
     volumes: #會把容器中的/var/lib/mysql資料放入主機的./data
       - ./data:/var/lib/mysql
-    networks:
-      - test
-
-networks: #讓這個容器類的網路相同
-  test:
-    driver: bridge #使用bridge網路驅動程式
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.20.0.0/16 #把IP定住
+  redis:
+    image: redis:7.0.12
+    ports:
+      - "6379:6379"
+volumes: #把資料存到主機
+  db-data:

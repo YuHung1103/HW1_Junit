@@ -24,10 +24,6 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
-	public BookController(BookService bookService) {
-		this.bookService = bookService;
-	}
-	
 	//取得所有book資料(對bookService發出請求)
 	@GetMapping("/book")
 	public List<Book> getAllBooks(){

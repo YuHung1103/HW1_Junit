@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim
+FROM openjdk:17
 
 ADD target/HW1-3.1.1.jar HW1-3.1.1.jar
 

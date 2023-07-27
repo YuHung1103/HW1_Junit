@@ -19,11 +19,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 public class LoginController {
 	
-	private UserService userService;
 	
-	public LoginController(UserService userService) {
-		this.userService = userService;
-	}
+	private UserService userService;
 	
 	//登入(輸入帳號、密碼) (對userService發出請求)
 	@PostMapping("/login")
