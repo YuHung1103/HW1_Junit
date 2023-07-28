@@ -33,8 +33,17 @@ public class BookServiceImpl implements BookService{
 		book.setPricing(pricing);
 		book.setSellingPrice(sellingPrice);
 		book.getAuthor().add(existAuthor);
+		existAuthor.getBook().add(book);
 		bookRepository.save(book);
 		
+		return "Success";
+	}
+	public String deleteBook(int Id) {
+		Boolean exists = bookRepository.existsById(Id);
+		if(!exists) {
+			return "Not Found";
+		}
+		bookRepository.deleteById(Id);
 		return "Success";
 	}
 	public List<BookDto> getAllBooksAndAuthors() {
