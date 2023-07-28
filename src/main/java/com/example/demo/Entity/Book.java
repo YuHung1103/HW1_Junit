@@ -1,8 +1,14 @@
 package com.example.demo.Entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -36,10 +42,11 @@ public class Book {
 	private int pricing;
 	@Column(name="sellingPrice")
 	private int sellingPrice;
-	@ManyToMany(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = "books")
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "books_authors", 
 		joinColumns = @JoinColumn(name = "bookId"), 
 		inverseJoinColumns = @JoinColumn(name = "authorId"))
-	private Set<Author> author = new HashSet<>();
+	private List<Author> authors = new ArrayList<>();
 	
 }

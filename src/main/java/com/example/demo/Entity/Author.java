@@ -1,12 +1,14 @@
 package com.example.demo.Entity;
 
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashSet;
-
+import java.util.List;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +32,6 @@ public class Author {
 	private String authorName;
 	@Column(name="birthday")
 	private LocalDate birthday;
-	@ManyToMany(mappedBy = "author")
-	private Set<Book> book = new HashSet<>();
+	@ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY)
+	private List<Book> books = new ArrayList<>();
 }

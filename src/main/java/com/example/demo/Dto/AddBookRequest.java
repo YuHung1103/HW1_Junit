@@ -11,6 +11,6 @@ public class AddBookRequest {
 	private String summary;
 	private int pricing;
 	private int sellingPrice;
-	private String authorName;
+	private String[] authorName;
 	
 }
