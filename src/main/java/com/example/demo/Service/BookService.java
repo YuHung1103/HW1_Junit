@@ -18,8 +18,4 @@ public interface BookService {
 	
 	public String deleteBook(int Id);
 	
-//	public String addBook(String bookName, String summary, int pricing,
-//			int sellingPrice, String authorName);
-//	public BookDto getOneBook(int bookId);
-//	public List<BookDto> getAllBooksAndAuthors(); 
 }

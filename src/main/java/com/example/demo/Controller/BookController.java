@@ -27,26 +27,6 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
-//	@PostMapping("/book")
-//	public String AddBook(@RequestBody AddBookRequest addBookRequest) {
-//		String bookName = addBookRequest.getBookName();
-//		String summary = addBookRequest.getSummary();
-//		int pricing = addBookRequest.getPricing();
-//		int sellingPrice = addBookRequest.getSellingPrice();
-//		String authorName = addBookRequest.getAuthorName();
-//		return bookService.addBook(bookName, summary, pricing, sellingPrice, authorName);
-//	}
-//	
-//	@GetMapping("/book")
-//	public List<BookDto> getAllBooksAndAuthors(){
-//		return bookService.getAllBooksAndAuthors();
-//	}
-//	
-//	@GetMapping("/book/{bookId}")
-//	public BookDto getOneBook(@PathVariable int bookId) {
-//		return bookService.getOneBook(bookId);
-//	}
-	
 	//取得所有book資料(對bookService發出請求)
 	@GetMapping("/book")
 	public List<Book> getAllBooks(){
