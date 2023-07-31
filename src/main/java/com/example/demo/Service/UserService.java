@@ -10,11 +10,13 @@ public interface UserService {
 	
 	public User getUser(int Id);
 	
-	public User createUser(User newUser);
+	public String createUser(String userAccount, String userPassword, String userName,
+			int userPhone, String userEmail, String[] role);
 	
-//	public User updateUser(int Id, User updatedUser);
-//	
-//	public String deleteUser(int Id);
+	public String updateUser(int Id, String userAccount, String userPassword, String userName,
+			int userPhone, String userEmail, String[] role);
+
+	public String deleteUser(int Id);
 //	
 //	public String login(String userAccount, String userPassword);
 //	

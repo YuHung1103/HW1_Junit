@@ -39,22 +39,13 @@ public class BookServiceImpl implements BookService{
 		book.setPricing(pricing);
 		book.setSellingPrice(sellingPrice);
 		//有沒有輸入到相同的作者名稱
-		for(int i=0;i<authorName.length-1;i++) {
-			for(int j=1;j<authorName.length;j++) {
-				if(authorName[i].equals(authorName[j])){
-					return "Have the same author name";
-				}
-			}
-		}
-		//查看作者table中，有沒有這位作者
-		for(int i=0;i<authorName.length;i++) {
-			Author existAuthor = authorRepository.findByAuthorName(authorName[i]);
-			if(existAuthor==null) {
-				return "Not Found This Author";
-			}
-			book.getAuthors().add(existAuthor);
-			existAuthor.getBooks().add(book);
-		}
+		if(HaveSameName(authorName)) {
+			return "Have the same author name";
+		};
+		//查看作者table中，有沒有這位作者，如果有，就加入到陣列裡
+		if(authorNotInTable(authorName, book)) {
+			return "Not Found This Author";
+		};
 		bookRepository.save(book);
 		return "Success";
 	}
@@ -64,30 +55,15 @@ public class BookServiceImpl implements BookService{
 			int pricing, int sellingPrice, String[] authorName) {
 		Book book = bookRepository.findById(Id).orElseThrow(() -> new RuntimeException("Not foound"));
 		//有沒有輸入到相同的作者名稱
-		for(int i=0;i<authorName.length-1;i++) {
-			for(int j=1;j<authorName.length;j++) {
-				if(authorName[i].equals(authorName[j])){
-					return "Have the same author name";
-				}
-			}
-		}
-		//取得本書的所有作者
-		List<Author> authors = book.getAuthors();
-		//清空所有跟本書有關的作者
-	    for (Author author : authors) {
-	        author.getBooks().remove(book);
-	    }
-	    //清空這本書的作者列表
-	    authors.clear();
-	    //查看作者table中，有沒有這位作者
-		for(int i=0;i<authorName.length;i++) {
-			Author existAuthor = authorRepository.findByAuthorName(authorName[i]);
-			if(existAuthor==null) {
-				return "Not Found This Author";
-			}
-			book.getAuthors().add(existAuthor);
-			existAuthor.getBooks().add(book);
-		}
+		if(HaveSameName(authorName)) {
+			return "Have the same author name";
+		};
+		//清除作者跟書的關聯
+		clearRelation(book);
+	    //查看作者table中，有沒有這位作者，如果有，就加入到陣列裡
+		if(authorNotInTable(authorName, book)) {
+			return "Not Found This Author";
+		};
 		book.setBookName(bookName);
 		book.setSummary(summary);
 		book.setPricing(pricing);
@@ -102,14 +78,43 @@ public class BookServiceImpl implements BookService{
 		if(book==null) {
 			return "Not Found";
 		}
-		//取得本書的所有作者
+		//清除作者跟書的關聯
+		clearRelation(book);
+		bookRepository.deleteById(Id);
+		return "Success";
+	}
+	
+	//有沒有輸入到相同的作者名稱
+	private Boolean HaveSameName(String[] authorName) {
+		for(int i=0;i<authorName.length-1;i++) {
+			for(int j=1;j<authorName.length;j++) {
+				if(authorName[i].equals(authorName[j])){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	//清空所有跟本書有關的作者
+	private void clearRelation(Book book) {
 		List<Author> authors = book.getAuthors();
-	    for (Author author : authors) {
+		for (Author author : authors) {
 	        author.getBooks().remove(book);
 	    }
 	    //清空這本書的作者列表
 	    authors.clear();
-		bookRepository.deleteById(Id);
-		return "Success";
 	}
+	//查看作者table中，有沒有這位作者
+	private Boolean authorNotInTable(String[] authorName, Book book) {
+		for(int i=0;i<authorName.length;i++) {
+			Author existAuthor = authorRepository.findByAuthorName(authorName[i]);
+			if(existAuthor==null) {
+				return true;
+			}
+			book.getAuthors().add(existAuthor);
+			//existAuthor.getBooks().add(book);
+		}
+		return false;
+	}
+    
 }

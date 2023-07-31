@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.Dao.RoleRepository;
 import com.example.demo.Dao.UserRepository;
+import com.example.demo.Entity.Author;
+import com.example.demo.Entity.Book;
+import com.example.demo.Entity.Role;
 import com.example.demo.Entity.User;
 import com.example.demo.Jwt.JwtTokenGenerator;
 import com.example.demo.Service.UserService;
@@ -16,6 +20,8 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private RoleRepository roleRepository;
 	@Autowired
 	private JwtTokenGenerator jwtTokenGenerator;
 	
@@ -31,32 +37,61 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	//新增資料(對userRepository操作)
-	public User createUser(User newUser) {
-		return userRepository.save(newUser);
+	public String createUser(String userAccount, String userPassword, String userName,
+			int userPhone, String userEmail, String[] role) {
+		User user = new User();
+		user.setUserAccount(userAccount);
+		user.setUserPassword(userPassword);
+		user.setUserName(userName);
+		user.setUserPhone(userPhone);
+		user.setUserEmail(userEmail);
+		//有沒有輸入到相同的role
+		if(HaveSameRole(role)) {
+			return "Have the same role";
+		};
+		//查看role table中，有沒有這個role，如果有，就加入到陣列裡
+		if(authorNotInTable(role, user)) {
+			return "Not Found This Role";
+		};
+		userRepository.save(user);
+		return "Success";
 	}
 	
-//	//更新資料(對userRepository操作) 先找有沒有此ID，再把新的資料set進舊的資料
-//	public User updateUser(int Id, User updatedUser) {
-//		User user = userRepository.findById(Id)
-//				.orElseThrow(() -> new RuntimeException("Not Found"));
-//		user.setUserAccount(updatedUser.getUserAccount());
-//		user.setUserPassword(updatedUser.getUserPassword());
-//		user.setUserName(updatedUser.getUserName());
-//		user.setUserPhone(updatedUser.getUserPhone());
-//		user.setUserEmail(updatedUser.getUserEmail());
-//		user.setRole(updatedUser.getRole());
-//		return userRepository.save(user);
-//	}
-//	
-//	//刪除資料(對userRepository操作) 先找有沒有此ID，然後再做刪除
-//	public String deleteUser(int Id) {
-//		boolean exists = userRepository.existsById(Id);
-//		if(!exists) {
-//			return "Not Found";
-//		}
-//		userRepository.deleteById(Id);
-//		return "Success";
-//	}
+	//更新資料(對userRepository操作) 先找有沒有此ID，再把新的資料set進舊的資料
+	public String updateUser(int Id, String userAccount, String userPassword, String userName,
+			int userPhone, String userEmail, String[] role) {
+		User user = userRepository.findById(Id)
+				.orElseThrow(() -> new RuntimeException("Not Found"));
+		//有沒有輸入到相同的role
+		if(HaveSameRole(role)) {
+			return "Have the same role";
+		};
+		//清除user跟role的關聯
+		clearRelation(user);
+	    //查看role table中，有沒有這個role，如果有，就加入到陣列裡
+		if(authorNotInTable(role, user)) {
+			return "Not Found This Role";
+		};
+		user.setUserAccount(userAccount);
+		user.setUserPassword(userPassword);
+		user.setUserName(userName);
+		user.setUserPhone(userPhone);
+		user.setUserEmail(userEmail);
+		userRepository.save(user);
+		return "Success";
+	}
+	
+	//刪除資料(對userRepository操作) 先找有沒有此ID，然後再做刪除
+	public String deleteUser(int Id) {
+		User user = userRepository.findById(Id).orElseThrow(() -> new RuntimeException("Not foound"));
+		if(user==null) {
+			return "Not Found";
+		}
+		//清除user跟role的關聯
+		clearRelation(user);
+		userRepository.deleteById(Id);
+		return "Success";
+	}
 //	
 //	//登入帳號密碼
 //	@Transactional
@@ -143,4 +178,36 @@ public class UserServiceImpl implements UserService{
 //	    User user = userRepository.findByUserAccount(userAccount);
 //	    return user != null && (user.getRole() == 0);
 //	}
+	
+	//有沒有輸入到相同的角色
+	private Boolean HaveSameRole(String[] role) {
+		for(int i=0;i<role.length-1;i++) {
+			for(int j=1;j<role.length;j++) {
+				if(role[i].equals(role[j])){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	//清空所有跟這個user有關的role
+	private void clearRelation(User user) {
+		List<Role> roles = user.getRoles();
+		for (Role role : roles) {
+			role.getUsers().remove(user);
+	    }
+	    //清空這個user的role列表
+		roles.clear();
+	}
+	//查看角色table中，有沒有這個role
+	private Boolean authorNotInTable(String[] role, User user) {
+		for(int i=0;i<role.length;i++) {
+			Role existRole = roleRepository.findByRole(role[i]);
+			if(existRole==null) {
+				return true;
+			}
+			user.getRoles().add(existRole);
+		}
+		return false;
+	}
 }

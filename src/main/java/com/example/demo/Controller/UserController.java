@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.Dto.AddUserRequest;
+import com.example.demo.Dto.UpdateBookRequest;
+import com.example.demo.Dto.UpdateUserRequest;
 import com.example.demo.Entity.User;
 import com.example.demo.Service.UserService;
 
@@ -21,6 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 public class UserController {
 	
+	@Autowired
 	private UserService userService;
 	
 	//取得所有user資料(對userService發出請求)
@@ -37,14 +42,26 @@ public class UserController {
 	
 	//新增資料(對userService發出請求)
 	@PostMapping("/user")
-	public User createUser(@RequestBody User NewUser) {
-		return userService.createUser(NewUser);
+	public String createUser(@RequestBody AddUserRequest addUserRequest) {
+		String account = addUserRequest.getUserAccount();
+		String password = addUserRequest.getUserPassword();
+		String name = addUserRequest.getUserName();
+		int phone = addUserRequest.getUserPhone();
+		String email = addUserRequest.getUserEmail();
+		String[] role = addUserRequest.getRole();
+		return userService.createUser(account, password, name, phone, email, role);
 	}
 	
 	//更新資料(對userService發出請求)
 	@PutMapping("/user/{Id}")
-	public User updateUser(@PathVariable int Id, @RequestBody User updatedUser) {
-		return userService.updateUser(Id, updatedUser);
+	public String updateUser(@PathVariable int Id, @RequestBody UpdateUserRequest updateUserRequest) {
+		String account = updateUserRequest.getUserAccount();
+		String password = updateUserRequest.getUserPassword();
+		String name = updateUserRequest.getUserName();
+		int phone = updateUserRequest.getUserPhone();
+		String email = updateUserRequest.getUserEmail();
+		String[] role = updateUserRequest.getRole();
+		return userService.updateUser(Id, account, password, name, phone, email, role);
 	}
 	
 	//刪除資料(對userService發出請求)
