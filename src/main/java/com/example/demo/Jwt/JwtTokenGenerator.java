@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -62,5 +63,11 @@ public class JwtTokenGenerator {
 		String redisKey = REDIS_KEY_PREFIX + userAccount;
 		redisTemplate.delete(redisKey);
 	 }
+	 
+	 public boolean keyExists(String userAccount) {
+		 String redisKey = REDIS_KEY_PREFIX + userAccount;
+        ValueOperations<String, String> valueOps = redisTemplate.opsForValue();
+        return valueOps.get(redisKey) != null;
+    }
 }
 

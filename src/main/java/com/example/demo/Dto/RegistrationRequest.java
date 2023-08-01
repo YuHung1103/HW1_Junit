@@ -14,6 +14,6 @@ public class RegistrationRequest {
 	private String userName;
 	private int userPhone;
 	private String userEmail;
-	private int role;
+	private String[] role;
 
 }

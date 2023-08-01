@@ -74,7 +74,7 @@ public class BookServiceImpl implements BookService{
 	
 	//刪除資料(對bookRepository操作) 先找有沒有此ID，然後再做刪除
 	public String deleteBook(int Id) {
-		Book book = bookRepository.findById(Id).orElseThrow(() -> new RuntimeException("Not foound"));
+		Book book = bookRepository.findById(Id).orElse(null);
 		if(book==null) {
 			return "Not Found";
 		}
