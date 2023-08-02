@@ -19,14 +19,10 @@ import java.util.Collections;
 
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-    private final JwtTokenGenerator jwtTokenGenerator;
+	@Autowired
+    private JwtTokenGenerator jwtTokenGenerator;
     @Autowired
-    private final UserService userService;
-
-    public JwtTokenFilter(JwtTokenGenerator jwtTokenGenerator, UserService userService) {
-        this.jwtTokenGenerator = jwtTokenGenerator;
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

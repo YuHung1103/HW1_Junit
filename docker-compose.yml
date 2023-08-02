@@ -43,7 +43,7 @@ services:
     build:
       context: ./ #前的目錄中尋找 Dockerfile 檔案
       dockerfile: dockerfile #執行dockerfile
-    image: red:v2 #使用的image
+    image: spring:v3 #使用的image
     ports:
       - "8080:8080" #主機端對容器端
     environment: #設定環境變數

@@ -2,6 +2,7 @@ package com.example.demo.Jwt;
 
 
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +21,25 @@ public class JwtTokenGenerator {
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
     private final String REDIS_KEY_PREFIX = "jwt:";
-    private final String secretKey;
+//    private final String secretKey;
 	Date now = new Date();
+	Date expire = new Date(now.getTime()+30*60*1000);
+	//存放UUID隨機生成的字符串
+    String secretKey = "";
     
-	public JwtTokenGenerator(@Value("${jwt.secretKey}") String secretKey) {
-		this.secretKey = secretKey;
-	}
+//	public JwtTokenGenerator(@Value("${jwt.secretKey}") String secretKey) {
+//		this.secretKey = secretKey;
+//	}
 
     //生成JWT Token並存儲到Redis中
     public String generateJwtToken(String userAccount) {
+    	//使用UUID生成隨機字符串
+    	secretKey = UUID.randomUUID().toString();
         String jwtToken = Jwts.builder()
                 .setSubject(userAccount)
                 //簽發時間
                 .setIssuedAt(now)
+                .setExpiration(expire)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
