@@ -41,7 +41,7 @@ public class KidController {
     }
 
     @DeleteMapping("/kid/{Id}")
-    public String deleteBook(@PathVariable int Id){
-        return kidService.deleteBook(Id);
+    public String deleteKid(@PathVariable int Id){
+        return kidService.deleteKid(Id);
     }
 }

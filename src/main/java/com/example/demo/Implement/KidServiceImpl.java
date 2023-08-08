@@ -44,8 +44,6 @@ public class KidServiceImpl implements KidService {
 
     public String updateKid(int Id, String kidName, String fatherName) {
         Kid kid = kidRepository.findById(Id).orElseThrow(() -> new RuntimeException("Not foound"));
-        //清除作者跟書的關聯
-//        clearRelation(kid);
         //查看父親table中，有沒有這位父親
         Father existFather = fatherRepository.findByFatherName(fatherName);
         if(existFather==null) {
@@ -57,13 +55,11 @@ public class KidServiceImpl implements KidService {
         return "Success";
     }
 
-    public String deleteBook(int Id) {
+    public String deleteKid(int Id) {
         Kid kid = kidRepository.findById(Id).orElse(null);
         if(kid==null) {
             return "Not Found";
         }
-        //清除作者跟書的關聯
-//        clearRelation(book);
         kidRepository.deleteById(Id);
         return "Success";
     }

@@ -10,6 +10,6 @@ public interface KidService {
     Kid getKid(int Id);
     String createKid(String kidName, String fatherName);
     String updateKid(int Id, String kidName, String fatherName);
-    String deleteBook(int Id);
+    String deleteKid(int Id);
 
 }
