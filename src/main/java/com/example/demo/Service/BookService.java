@@ -6,16 +6,16 @@ import com.example.demo.Entity.Book;
 
 public interface BookService {
 	
-	public List<Book> getAllBooks();
+	List<Book> getAllBooks();
 	
-	public Book getBook(int Id);
+	Book getBook(int Id);
 	
-	public String createBook(String bookName, String summary, int pricing,
+	String createBook(String bookName, String summary, int pricing,
 			int sellingPrice, String[] authorName);
 	
-	public String updateBook(int Id, String bookName, String summary, 
+	String updateBook(int Id, String bookName, String summary,
 			int pricing, int sellingPrice, String[] authorName);
 	
-	public String deleteBook(int Id);
+	String deleteBook(int Id);
 	
 }

@@ -28,16 +28,18 @@ public class WebSecurityConfig {
 		.authorizeHttpRequests((authorize) -> authorize
 				.requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
 				.requestMatchers("/redis").permitAll()
+                .requestMatchers("/kid/**").permitAll()
+                .requestMatchers("/father/**").permitAll()
                 .requestMatchers(HttpMethod.POST,"/register").permitAll()
                 .requestMatchers(HttpMethod.PUT,"/forget").permitAll()
                 .requestMatchers(HttpMethod.POST,"/login").permitAll()
                 .requestMatchers(HttpMethod.POST,"user/logout").authenticated()
                 .requestMatchers("/user/**").hasAnyRole("USER","ADMIN")
                 .requestMatchers("/book/**").hasRole("ADMIN")
-                .anyRequest().permitAll())
+                .anyRequest().permitAll());
 		
 		//加入filter，先執行jwtfilter
-		.addFilterBefore(jwtTokenFilter(), BasicAuthenticationFilter.class);
+//		.addFilterBefore(jwtTokenFilter(), BasicAuthenticationFilter.class);
 		return http.build();
     }
 	
