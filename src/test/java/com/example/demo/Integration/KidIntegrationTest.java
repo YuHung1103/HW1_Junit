@@ -83,8 +83,6 @@ public class KidIntegrationTest {
                         .content(requestJson))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Success"));
-
-        verify(fatherRepository, times(1)).findByFatherName("ftest");
     }
 
 

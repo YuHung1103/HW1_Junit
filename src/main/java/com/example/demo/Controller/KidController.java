@@ -27,14 +27,14 @@ public class KidController {
     }
 
     @PostMapping("/kid")
-    public String createKid(AddKidRequest addKidRequest){
+    public String createKid(@RequestBody AddKidRequest addKidRequest){
         String kidName = addKidRequest.getKidName();
         String fatherName = addKidRequest.getFatherName();
         return kidService.createKid(kidName, fatherName);
     }
 
     @PutMapping("/kid/{Id}")
-    public String updateKid(@PathVariable int Id, UpdateKidRequest updateKidRequest){
+    public String updateKid(@PathVariable int Id, @RequestBody UpdateKidRequest updateKidRequest){
         String kidName = updateKidRequest.getKidName();
         String fatherName = updateKidRequest.getFatherName();
         return kidService.updateKid(Id, kidName, fatherName);
