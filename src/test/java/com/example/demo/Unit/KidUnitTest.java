@@ -51,6 +51,28 @@ public class KidUnitTest {
     }
 
     @Test
+    public void testGetKid(){
+        // 模拟一个虚拟的 father 数据
+        Father mockFather = new Father();
+        mockFather.setFatherId(1);
+        mockFather.setFatherName("ftest");
+        mockFather.setKids(null);
+
+        //第一筆小孩資料
+        Kid kid1 = new Kid();
+        kid1.setKidName("kid1");
+        kid1.setFather(mockFather);
+
+        when(kidRepository.findById(1)).thenReturn(Optional.of(kid1));
+
+        Kid result = kidServiceImpl.getKid(1);
+
+        assertEquals(kid1.getKidName(), result.getKidName());
+
+        verify(kidRepository).findById(1);
+    }
+
+    @Test
     public void testGetAllKids(){
         // 模拟一个虚拟的 father 数据
         Father mockFather = new Father();
