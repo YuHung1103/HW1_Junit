@@ -153,7 +153,7 @@ public class KidIntegrationTest {
         newMockFather.setFatherName("FatherName");
         newMockFather.setKids(null);
 
-        //遇到...救回傳...
+        //遇到...就回傳...
         when(kidRepository.findById(eq(1))).thenReturn(Optional.of(mockKid));
         when(fatherRepository.findByFatherName(eq("FatherName"))).thenReturn(newMockFather);
 

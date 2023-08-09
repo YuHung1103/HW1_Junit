@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService{
         }
 		if(user!=null && user.getUserAccount().equals(userAccount)) {
 			jwtTokenGenerator.deleteToken(userAccount);
-			return "success";
+			return "Success";
 		}
 		return "not found this account";
 	}
