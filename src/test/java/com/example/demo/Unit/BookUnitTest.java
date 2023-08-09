@@ -110,13 +110,13 @@ public class BookUnitTest {
 
         Author mockAuthor = new Author();
         mockAuthor.setAuthorId(1);
-        mockAuthor.setAuthorName("Author1");
+        mockAuthor.setAuthorName("Author");
         mockAuthor.setBirthday(LocalDate.of(1999, 9, 9));
         mockAuthors.add(mockAuthor);
 
         Book book = new Book();
-        book.setBookName("test1");
-        book.setSummary("summary1");
+        book.setBookName("test");
+        book.setSummary("summary");
         book.setPricing(500);
         book.setSellingPrice(450);
         book.setAuthors(mockAuthors);
@@ -132,5 +132,74 @@ public class BookUnitTest {
 
         //驗證方法有沒有被使用
         verify(bookRepository).findById(eq(1));
+    }
+
+    @Test
+    public void testUpdateBook(){
+        //創建虛擬資料
+        List<Author> mockAuthors= new ArrayList<>();
+
+        Author mockAuthor = new Author();
+        mockAuthor.setAuthorId(1);
+        mockAuthor.setAuthorName("Author");
+        mockAuthor.setBirthday(LocalDate.of(1999, 9, 9));
+        mockAuthors.add(mockAuthor);
+
+        Book book = new Book();
+        book.setBookId(1);
+        book.setBookName("test");
+        book.setSummary("summary");
+        book.setPricing(500);
+        book.setSellingPrice(450);
+        book.setAuthors(mockAuthors);
+
+        //遇到...就回傳...
+        when(bookRepository.findById(eq(1))).thenReturn(Optional.of(book));
+        when(authorRepository.findByAuthorName(eq("Author"))).thenReturn(mockAuthor);
+
+        //使用bookServiceImpl的實際方法，並存入回傳值
+        String[] authors = {"Author"};
+        String result = bookServiceImpl.updateBook(1,"aa", "aaSummary", 100, 50, authors);
+
+        //斷言
+        assertEquals("Success", result);
+
+        //驗證方法有沒有被使用
+        verify(bookRepository).findById(eq(1));
+        verify(authorRepository).findByAuthorName(eq("Author"));
+        verify(bookRepository).save(book);
+    }
+
+    @Test
+    public void testDeleteBook(){
+        //創建虛擬資料
+        List<Author> mockAuthors= new ArrayList<>();
+
+        Author mockAuthor = new Author();
+        mockAuthor.setAuthorId(1);
+        mockAuthor.setAuthorName("Author");
+        mockAuthor.setBirthday(LocalDate.of(1999, 9, 9));
+        mockAuthors.add(mockAuthor);
+
+        Book book = new Book();
+        book.setBookId(1);
+        book.setBookName("test");
+        book.setSummary("summary");
+        book.setPricing(500);
+        book.setSellingPrice(450);
+        book.setAuthors(mockAuthors);
+
+        //遇到...就回傳...
+        when(bookRepository.findById(eq(1))).thenReturn(Optional.of(book));
+
+        //使用bookServiceImpl的實際方法，並存入回傳值
+        String result = bookServiceImpl.deleteBook(1);
+
+        //斷言
+        assertEquals("Success", result);
+
+        //驗證方法有沒有被使用
+        verify(bookRepository).findById(eq(1));
+        verify(bookRepository).deleteById(eq(1));
     }
 }
