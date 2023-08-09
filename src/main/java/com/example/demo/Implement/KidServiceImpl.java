@@ -2,12 +2,10 @@ package com.example.demo.Implement;
 
 import com.example.demo.Dao.FatherRepository;
 import com.example.demo.Dao.KidRepository;
-import com.example.demo.Entity.Author;
 import com.example.demo.Entity.Father;
 import com.example.demo.Entity.Kid;
 import com.example.demo.Service.KidService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,14 +61,4 @@ public class KidServiceImpl implements KidService {
         kidRepository.deleteById(Id);
         return "Success";
     }
-
-    //清空所有跟本書有關的作者
-//    private void clearRelation(Book book) {
-//        List<Author> authors = book.getAuthors();
-//        for (Author author : authors) {
-//            author.getBooks().remove(book);
-//        }
-//        //清空這本書的作者列表
-//        authors.clear();
-//    }
 }
