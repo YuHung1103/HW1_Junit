@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.Dto.ForgetRequest;
 import com.example.demo.Dto.LoginRequest;
 import com.example.demo.Dto.LogoutRequest;
-import com.example.demo.Dto.RegistrationRequest;
+import com.example.demo.Dto.RegisterRequest;
 import com.example.demo.Service.UserService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +35,7 @@ public class LoginController {
 	
 	//註冊(輸入帳號、密碼、確認密碼、姓名、手機、mail、角色) (對userService發出請求)
 	@PostMapping("/register")
-	public String register(@RequestBody RegistrationRequest registrationRequest) {
+	public String register(@RequestBody RegisterRequest registrationRequest) {
 		String Account = registrationRequest.getUserAccount();
 		String Password = registrationRequest.getUserPassword();
 		String confirmPassword = registrationRequest.getConfirmPassword();

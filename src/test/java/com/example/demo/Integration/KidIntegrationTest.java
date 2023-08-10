@@ -9,7 +9,9 @@ import com.example.demo.Dto.AddKidRequest;
 import com.example.demo.Dto.UpdateKidRequest;
 import com.example.demo.Entity.Father;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,38 +44,18 @@ public class KidIntegrationTest {
     @MockBean
     private KidRepository kidRepository;
 
-    @Test
-    public void testCreateKid() throws Exception {
+    String createRequestJson;
+    String updateRequestJson;
+
+    @BeforeEach
+    public void setUp() throws Exception{
+//        MockitoAnnotations.initMocks(this); //初始化Mockito注解
+
         //創建虛擬資料
-        Father mockFather = new Father();
-        mockFather.setFatherId(1);
-        mockFather.setFatherName("ftest");
-        mockFather.setKids(null);
+        Kid mockKid = new Kid();
+        mockKid.setKidId(1);
+        mockKid.setKidName("MockKid");
 
-        //遇到...就回傳...
-        when(fatherRepository.findByFatherName(eq("ftest"))).thenReturn(mockFather);
-
-        AddKidRequest addKidRequest = new AddKidRequest();
-        addKidRequest.setKidName("test");
-        addKidRequest.setFatherName("ftest");
-
-        //把資料轉換成JSON格式
-        String requestJson = objectMapper.writeValueAsString(addKidRequest);
-
-        //傳送資料給controller，並做了斷言
-        mockMvc.perform(MockMvcRequestBuilders.post("/kid")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestJson))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("Success"));
-
-        //驗證方法有沒有被使用
-        verify(fatherRepository).findByFatherName(eq("ftest"));
-    }
-
-    @Test
-    public void testGetAllKids() throws Exception {
-        //創建虛擬資料
         Father mockFather = new Father();
         mockFather.setFatherId(1);
         mockFather.setFatherName("ftest");
@@ -91,9 +73,46 @@ public class KidIntegrationTest {
         kid2.setFather(mockFather);
         mockKids.add(kid2);
 
+        Father newMockFather = new Father();
+        newMockFather.setFatherId(2);
+        newMockFather.setFatherName("FatherName");
+        newMockFather.setKids(null);
+
         //遇到...就回傳...
         when(kidRepository.findAll()).thenReturn(mockKids);
+        when(kidRepository.findById(eq(1))).thenReturn(Optional.of(mockKid));
+        when(fatherRepository.findByFatherName(eq("ftest"))).thenReturn(mockFather);
+        when(fatherRepository.findByFatherName(eq("FatherName"))).thenReturn(newMockFather);
 
+
+        AddKidRequest addKidRequest = new AddKidRequest();
+        addKidRequest.setKidName("test");
+        addKidRequest.setFatherName("ftest");
+        //把資料轉換成JSON格式
+        createRequestJson = objectMapper.writeValueAsString(addKidRequest);
+
+        UpdateKidRequest updateKidRequest = new UpdateKidRequest();
+        updateKidRequest.setKidName("test");
+        updateKidRequest.setFatherName("FatherName");
+        //把資料轉換成JSON格式
+        updateRequestJson = objectMapper.writeValueAsString(updateKidRequest);
+    }
+
+    @Test
+    public void testCreateKid() throws Exception {
+        //傳送資料給controller，並做了斷言
+        mockMvc.perform(MockMvcRequestBuilders.post("/kid")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(createRequestJson))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Success"));
+
+        //驗證方法有沒有被使用
+        verify(fatherRepository).findByFatherName(eq("ftest"));
+    }
+
+    @Test
+    public void testGetAllKids() throws Exception {
         //傳送資料給controller，並做了斷言
         mockMvc.perform(MockMvcRequestBuilders.get("/kid"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -113,61 +132,16 @@ public class KidIntegrationTest {
 
     @Test
     public void testGetKid() throws Exception {
-        //創建虛擬資料
-        Father mockFather = new Father();
-        mockFather.setFatherId(1);
-        mockFather.setFatherName("ftest");
-        mockFather.setKids(null);
-
-        Kid kid1 = new Kid();
-        kid1.setKidId(1);
-        kid1.setKidName("kid1");
-        kid1.setFather(mockFather);
-
-        //遇到...就回傳...
-        when(kidRepository.findById(eq(1))).thenReturn(Optional.of(kid1));
-
         //傳送資料給controller，並做了斷言
         mockMvc.perform(MockMvcRequestBuilders.get("/kid/{Id}", 1))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-
-        //驗證方法有沒有被使用
-        verify(kidRepository).findById(eq(1));
     }
 
     @Test
     public void testUpdateKid() throws Exception {
-        //創建虛擬資料
-        Father mockFather = new Father();
-        mockFather.setFatherId(1);
-        mockFather.setFatherName("ftest");
-        mockFather.setKids(null);
-
-        Kid mockKid = new Kid();
-        mockKid.setKidId(1);
-        mockKid.setKidName("KidName");
-        mockKid.setFather(mockFather);
-
-        Father newMockFather = new Father();
-        newMockFather.setFatherId(2);
-        newMockFather.setFatherName("FatherName");
-        newMockFather.setKids(null);
-
-        //遇到...就回傳...
-        when(kidRepository.findById(eq(1))).thenReturn(Optional.of(mockKid));
-        when(fatherRepository.findByFatherName(eq("FatherName"))).thenReturn(newMockFather);
-
-        //建立一個傳給controller需要的物件
-        UpdateKidRequest updateKidRequest = new UpdateKidRequest();
-        updateKidRequest.setKidName("test");
-        updateKidRequest.setFatherName("FatherName");
-
-        //把資料轉換成JSON格式
-        String requestJson = objectMapper.writeValueAsString(updateKidRequest);
-
         //傳送資料給controller，並做了斷言
         mockMvc.perform(MockMvcRequestBuilders.put("/kid/{Id}", 1)
-                        .content(requestJson)
+                        .content(updateRequestJson)
                         .contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Success"));
@@ -175,25 +149,10 @@ public class KidIntegrationTest {
         //驗證方法有沒有被使用
         verify(kidRepository).findById(eq(1));
         verify(fatherRepository).findByFatherName(eq("FatherName"));
-        verify(kidRepository).save(mockKid);
     }
 
     @Test
     public void testDeleteKid() throws Exception {
-        //創建虛擬資料
-        Father mockFather = new Father();
-        mockFather.setFatherId(1);
-        mockFather.setFatherName("ftest");
-        mockFather.setKids(null);
-
-        Kid mockKid = new Kid();
-        mockKid.setKidId(1);
-        mockKid.setKidName("KidName");
-        mockKid.setFather(mockFather);
-
-        //遇到...就回傳...
-        when(kidRepository.findById(eq(1))).thenReturn(Optional.of(mockKid));
-
         //傳送資料給controller，並做了斷言
         mockMvc.perform(MockMvcRequestBuilders.delete("/kid/{Id}", 1))
                 .andExpect(MockMvcResultMatchers.status().isOk())

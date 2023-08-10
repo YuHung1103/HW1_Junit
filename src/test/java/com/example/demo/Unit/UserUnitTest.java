@@ -217,7 +217,7 @@ public class UserUnitTest {
         user.setUserPhone(987654321);
         user.setUserEmail("user@mail.com");
 
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdHJpbmciLCJpYXQiOjE2OTE1Njg2MjQsImV4cCI6MTY5MTU3MDQyNH0.hLhKtuivP9rm_zfzhncZBCVUnGDSD8krzTFFF4In9vQ";
+        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIn0.9GnZFIiRocAmNvFtRa1-vFb8wj1p1_zJzLhQ1Oc2vZE";
 
         //遇到...就回傳...
         when(userRepository.findByUserAccount(eq("user"))).thenReturn(user);
