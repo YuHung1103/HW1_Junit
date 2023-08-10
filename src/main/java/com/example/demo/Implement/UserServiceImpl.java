@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.Dao.RoleRepository;
 import com.example.demo.Dao.UserRepository;
-import com.example.demo.Entity.Book;
 import com.example.demo.Entity.Role;
 import com.example.demo.Entity.User;
 import com.example.demo.Jwt.JwtTokenGenerator;

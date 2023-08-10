@@ -83,15 +83,6 @@ public class FatherServiceImpl implements FatherService {
         }
         return false;
     }
-    //清空所有跟本書有關的作者
-    private void clearRelation(Book book) {
-        List<Author> authors = book.getAuthors();
-        for (Author author : authors) {
-            author.getBooks().remove(book);
-        }
-        //清空這本書的作者列表
-        authors.clear();
-    }
     //查看kid table中，有沒有這位kid
     private Boolean kidNotInTable(String[] kidName, Father father) {
         for(int i=0;i<kidName.length;i++) {

@@ -2,16 +2,13 @@ package com.example.demo.Integration;
 
 import com.example.demo.Dao.AuthorRepository;
 import com.example.demo.Dao.BookRepository;
-import com.example.demo.Dao.RoleRepository;
 import com.example.demo.Dao.UserRepository;
 import com.example.demo.Dto.*;
 import com.example.demo.Entity.Author;
 import com.example.demo.Entity.Book;
 import com.example.demo.Entity.Role;
 import com.example.demo.Entity.User;
-import com.example.demo.Jwt.JwtTokenGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.bytebuddy.matcher.FilterableList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +44,9 @@ public class BookIntegrationTest {
     @MockBean
     private UserRepository userRepository;
     @MockBean
-    private RoleRepository roleRepository;
-    @MockBean
     private BookRepository bookRepository;
     @MockBean
     private AuthorRepository authorRepository;
-
-    @Autowired
-    private JwtTokenGenerator jwtTokenGenerator;
 
     private String token;
 
@@ -71,7 +63,6 @@ public class BookIntegrationTest {
         mockRole2.setRole("user");
         mockroles.add(mockRole2);
 
-        List<User> mockusers = new ArrayList<>();
         User user = new User();
         user.setUserId(1);
         user.setUserAccount("user");
@@ -80,7 +71,6 @@ public class BookIntegrationTest {
         user.setUserPhone(987654321);
         user.setUserEmail("user@mail.com");
         user.setRoles(mockroles);
-        mockusers.add(user);
 
         List<Author> mockauthors = new ArrayList<>();
         Author author = new Author();

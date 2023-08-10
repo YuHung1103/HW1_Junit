@@ -2,12 +2,9 @@ package com.example.demo.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 

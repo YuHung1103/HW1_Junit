@@ -1,16 +1,11 @@
 package com.example.demo.Integration;
 
-import com.example.demo.Dao.FatherRepository;
-import com.example.demo.Dao.KidRepository;
 import com.example.demo.Dao.RoleRepository;
 import com.example.demo.Dao.UserRepository;
 import com.example.demo.Dto.*;
 import com.example.demo.Entity.Role;
 import com.example.demo.Entity.User;
-import com.example.demo.Jwt.JwtTokenGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -49,9 +41,6 @@ public class UserIntegationTest {
     private UserRepository userRepository;
     @MockBean
     private RoleRepository roleRepository;
-
-    @Autowired
-    private JwtTokenGenerator jwtTokenGenerator;
 
     private String token;
 
