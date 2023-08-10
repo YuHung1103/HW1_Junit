@@ -9,18 +9,17 @@ import com.example.demo.Dao.KidRepository;
 import com.example.demo.Entity.Father;
 import com.example.demo.Implement.KidServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.Entity.Kid;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@ExtendWith(SpringExtension.class)
 public class KidUnitTest {
 
     //會把下列兩個有使用Mock註解的物件，注入進這個class中
