@@ -26,7 +26,7 @@
         </encoder>
     </appender>
 
-    <!-- 设置根 logger -->
+    <!-- 設置根logger -->
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
