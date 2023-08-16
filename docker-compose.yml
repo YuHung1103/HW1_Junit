@@ -68,5 +68,3 @@ services:
     image: redis:7.0.12
     ports:
       - "6379:6379"
-volumes: #把資料存到主機
-  db-data:

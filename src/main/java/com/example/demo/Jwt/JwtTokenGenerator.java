@@ -21,19 +21,20 @@ public class JwtTokenGenerator {
 	private RedisTemplate<String, String> redisTemplate;
     private final String REDIS_KEY_PREFIX = "jwt:";
 //    private final String secretKey;
-	Date now = new Date();
-	Date expire = new Date(now.getTime()+30*60*1000);
+
 	//存放UUID隨機生成的字符串
-    String secretKey = "";
-    
+    String secretKey = "HalynWang1103";
+
 //	public JwtTokenGenerator(@Value("${jwt.secretKey}") String secretKey) {
 //		this.secretKey = secretKey;
 //	}
 
     //生成JWT Token並存儲到Redis中
     public String generateJwtToken(String userAccount) {
+		Date now = new Date();
+		Date expire = new Date(now.getTime()+30*60*1000);
     	//使用UUID生成隨機字符串
-    	secretKey = UUID.randomUUID().toString();
+//    	secretKey = UUID.randomUUID().toString();
         String jwtToken = Jwts.builder()
                 .setSubject(userAccount)
                 //簽發時間
