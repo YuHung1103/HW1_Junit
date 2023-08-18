@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
-              name="user-rpt"
-              pageWidth="595" pageHeight="842" columnWidth="555"
-              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="user-rpt" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="673a9ee4-9454-4ee3-bcbd-bfd47a1649ea">
     <property name="ireport.zoom" value="1.0"/>
     <property name="ireport.x" value="0"/>
     <property name="ireport.y" value="0"/>
@@ -13,15 +11,14 @@
     <field name="userName" class="java.lang.String"/>
     <field name="userPhone" class="java.lang.Integer"/>
     <field name="userEmail" class="java.lang.String"/>
-<!--    <field name="roles" class="java.util.List"/>-->
     <field name="roles" class="java.lang.String"/>
     <background>
         <band splitType="Stretch"/>
     </background>
     <title>
-        <band height="42" splitType="Stretch">
+        <band height="45" splitType="Stretch">
             <staticText>
-                <reportElement x="36" y="-10" width="481" height="42" uuid="51154bd7-a07f-4b30-ba23-87a1b852711c"/>
+                <reportElement x="37" y="1" width="481" height="42" uuid="51154bd7-a07f-4b30-ba23-87a1b852711c"/>
                 <textElement textAlignment="Center">
                     <font size="20" isBold="true"/>
                 </textElement>
@@ -29,10 +26,22 @@
             </staticText>
         </band>
     </title>
-    <columnHeader>
-        <band height="61">
+    <pageHeader>
+        <band height="35" splitType="Stretch">
+            <textField>
+                <reportElement x="454" y="0" width="99" height="20" uuid="0f5f30c6-d8d9-4976-a10d-002577f3f9ae"/>
+                <textFieldExpression><![CDATA[$P{createdBy}]]></textFieldExpression>
+            </textField>
             <staticText>
-                <reportElement x="0" y="41" width="79" height="20"/>
+                <reportElement x="396" y="0" width="58" height="20" uuid="4d4e9738-eb29-4ecd-8474-de3ac9a0db26"/>
+                <text><![CDATA[Created By:]]></text>
+            </staticText>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="20">
+            <staticText>
+                <reportElement x="0" y="0" width="79" height="20" uuid="bd9fab81-5645-45f9-a2dc-84b92df141ff"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -46,7 +55,7 @@
                 <text><![CDATA[ID]]></text>
             </staticText>
             <staticText>
-                <reportElement x="79" y="41" width="79" height="20"/>
+                <reportElement x="79" y="0" width="79" height="20" uuid="304a81df-cba8-4b75-993e-6ba8963fbf10"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -60,7 +69,7 @@
                 <text><![CDATA[Account]]></text>
             </staticText>
             <staticText>
-                <reportElement x="158" y="41" width="79" height="20"/>
+                <reportElement x="158" y="0" width="79" height="20" uuid="91bb438f-ba16-4058-8282-0c340aebfcf1"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -74,7 +83,7 @@
                 <text><![CDATA[Password]]></text>
             </staticText>
             <staticText>
-                <reportElement x="237" y="41" width="79" height="20"/>
+                <reportElement x="237" y="0" width="79" height="20" uuid="ea6289be-706b-4bac-9d28-613dd6ed1118"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -88,7 +97,7 @@
                 <text><![CDATA[Name]]></text>
             </staticText>
             <staticText>
-                <reportElement x="316" y="41" width="79" height="20"/>
+                <reportElement x="316" y="0" width="79" height="20" uuid="5e49d731-2306-47a2-a7af-d51936404599"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -102,7 +111,7 @@
                 <text><![CDATA[Phone]]></text>
             </staticText>
             <staticText>
-                <reportElement x="395" y="41" width="79" height="20"/>
+                <reportElement x="395" y="0" width="79" height="20" uuid="48100639-2674-41b7-bcdc-5b57f168a310"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -116,7 +125,7 @@
                 <text><![CDATA[Email]]></text>
             </staticText>
             <staticText>
-                <reportElement x="474" y="41" width="79" height="20"/>
+                <reportElement x="474" y="0" width="79" height="20" uuid="47fcafe6-f8a9-4c6b-a80d-2ff021c6883f"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -129,22 +138,12 @@
                 </textElement>
                 <text><![CDATA[Role]]></text>
             </staticText>
-            <textField>
-                <reportElement x="493" y="21" width="99" height="20"/>
-                <textElement/>
-                <textFieldExpression><![CDATA[$P{createdBy}]]></textFieldExpression>
-            </textField>
-            <staticText>
-                <reportElement x="435" y="21" width="58" height="20"/>
-                <textElement/>
-                <text><![CDATA[Created By:]]></text>
-            </staticText>
         </band>
     </columnHeader>
     <detail>
         <band height="20" splitType="Stretch">
             <textField>
-                <reportElement x="0" y="0" width="79" height="20"/>
+                <reportElement x="0" y="0" width="79" height="20" uuid="17db85e6-8134-4b2a-a1f6-157df308ce58"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -156,7 +155,7 @@
                 <textFieldExpression><![CDATA[$F{userId}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="79" y="0" width="79" height="20"/>
+                <reportElement x="79" y="0" width="79" height="20" uuid="61215d45-dee3-474a-b6c9-1be88cdcc8b1"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -168,7 +167,7 @@
                 <textFieldExpression><![CDATA[$F{userAccount}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="158" y="0" width="79" height="20"/>
+                <reportElement x="158" y="0" width="79" height="20" uuid="ea6b92a2-2d86-4b01-9820-61a7fd545d0a"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -180,7 +179,7 @@
                 <textFieldExpression><![CDATA[$F{userPassword}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="237" y="0" width="79" height="20"/>
+                <reportElement x="237" y="0" width="79" height="20" uuid="cd4c4777-94a0-4473-bfaf-c1d28404983e"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -192,7 +191,7 @@
                 <textFieldExpression><![CDATA[$F{userName}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="316" y="0" width="79" height="20"/>
+                <reportElement x="316" y="0" width="79" height="20" uuid="f23f915b-305e-4bf8-b927-82f6812f47f6"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -204,7 +203,7 @@
                 <textFieldExpression><![CDATA[$F{userPhone}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="395" y="0" width="79" height="20"/>
+                <reportElement x="395" y="0" width="79" height="20" uuid="cd3c712e-74b7-443f-a721-a175920d90c6"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -216,7 +215,7 @@
                 <textFieldExpression><![CDATA[$F{userEmail}]]></textFieldExpression>
             </textField>
             <textField>
-                <reportElement x="474" y="0" width="79" height="20"/>
+                <reportElement x="474" y="0" width="79" height="20" uuid="6fffab0a-a250-44dc-8f5f-69f123830953"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -227,11 +226,15 @@
                 <textElement textAlignment="Center"/>
                 <textFieldExpression><![CDATA[$F{roles}]]></textFieldExpression>
             </textField>
-<!--            <subreport>-->
-<!--                <reportElement x="474" y="0" width="79" height="20"/>-->
-<!--                <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{roles})]]></dataSourceExpression>-->
-<!--                <subreportExpression><![CDATA["src\\main\\resources\\report\\roleSubreport.jasper"]]></subreportExpression>-->
-<!--            </subreport>-->
         </band>
     </detail>
+    <columnFooter>
+        <band height="600">
+            <subreport>
+                <reportElement x="0" y="0" width="250" height="600" uuid="aff41ed9-bc8a-476d-b079-c729f6507591"/>
+                <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+                <subreportExpression><![CDATA["src\\main\\resources\\report\\roleSubreport.jasper"]]></subreportExpression>
+            </subreport>
+        </band>
+    </columnFooter>
 </jasperReport>

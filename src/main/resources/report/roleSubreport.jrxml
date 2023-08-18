@@ -1,15 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
-              name="roleSubreport">
-    <property name="ireport.zoom" value="1.0"/>
-    <property name="ireport.x" value="0"/>
-    <property name="ireport.y" value="0"/>
-    <parameter name="createdBy" class="java.lang.String"/>
-    <field name="role" class="java.lang.String"/>
+<!-- Created with Jaspersoft Studio version 6.20.5.final using JasperReports Library version 6.20.5-3efcf2e67f959db3888d79f73dde2dbd7acb4f8e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="roleSubreport" pageWidth="240" pageHeight="150" columnWidth="200" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ad1c7ba8-905b-4590-8f71-ac36347b6b76">
+    <title>
+        <band height="40" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="200" height="38" uuid="51154bd7-a07f-4b30-ba23-87a1b852711c">
+                    <property name="com.jaspersoft.studio.unit.width" value="px"/>
+                </reportElement>
+                <textElement textAlignment="Center">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Role Details]]></text>
+            </staticText>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="20">
+            <staticText>
+                <reportElement x="0" y="0" width="100" height="20" uuid="bd9fab81-5645-45f9-a2dc-84b92df141ff"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                    <topPen lineWidth="0.25"/>
+                    <leftPen lineWidth="0.25"/>
+                    <bottomPen lineWidth="0.25"/>
+                    <rightPen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="12" isBold="true" isItalic="false"/>
+                </textElement>
+                <text><![CDATA[roleId]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="100" y="0" width="100" height="20" uuid="304a81df-cba8-4b75-993e-6ba8963fbf10"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                    <topPen lineWidth="0.25"/>
+                    <leftPen lineWidth="0.25"/>
+                    <bottomPen lineWidth="0.25"/>
+                    <rightPen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center">
+                    <font size="12" isBold="true" isItalic="false"/>
+                </textElement>
+                <text><![CDATA[role]]></text>
+            </staticText>
+
+        </band>
+    </columnHeader>
     <detail>
-        <band height="20" splitType="Immediate">
-            <textField>
-                <reportElement x="-20" y="-30" width="79" height="20"/>
+        <band height="40" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="100" height="20" uuid="e718a958-df36-473e-80db-33a063a29a25"/>
                 <box>
                     <pen lineWidth="0.25"/>
                     <topPen lineWidth="0.25"/>
@@ -18,8 +59,44 @@
                     <rightPen lineWidth="0.25"/>
                 </box>
                 <textElement textAlignment="Center"/>
-                <textFieldExpression><![CDATA[$F{role}]]></textFieldExpression>
-            </textField>
+                <text><![CDATA[1]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="100" y="0" width="100" height="20" uuid="334d1533-0e06-4d40-a438-37a4ca892a1b"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                    <topPen lineWidth="0.25"/>
+                    <leftPen lineWidth="0.25"/>
+                    <bottomPen lineWidth="0.25"/>
+                    <rightPen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[user]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="20" width="100" height="20" uuid="e718a958-df36-473e-80db-33a063a29a25"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                    <topPen lineWidth="0.25"/>
+                    <leftPen lineWidth="0.25"/>
+                    <bottomPen lineWidth="0.25"/>
+                    <rightPen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[2]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="100" y="20" width="100" height="20" uuid="334d1533-0e06-4d40-a438-37a4ca892a1b"/>
+                <box>
+                    <pen lineWidth="0.25"/>
+                    <topPen lineWidth="0.25"/>
+                    <leftPen lineWidth="0.25"/>
+                    <bottomPen lineWidth="0.25"/>
+                    <rightPen lineWidth="0.25"/>
+                </box>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[admin]]></text>
+            </staticText>
         </band>
     </detail>
 </jasperReport>

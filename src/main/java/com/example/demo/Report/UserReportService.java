@@ -26,7 +26,7 @@ public class UserReportService {
 
     public String generateReport() {
         try {
-            //創建report需要的資料
+            //創建report需要的資料，從關聯表中拿到role
             List<Report> report = new ArrayList<>();
             for (User user : userService.getAllUsers()){
                 String[] roles = new String[2];
@@ -49,8 +49,8 @@ public class UserReportService {
             // 定義報表模板的路徑
             String reportPath = "src\\main\\resources\\report";
 
-//            // 把子表轉成jrxml黨轉乘jasper
-//            JasperCompileManager.compileReportToFile(reportPath + "\\roleSubreport.jrxml");
+            // 把子表轉成jrxml檔轉成jasper
+            JasperCompileManager.compileReportToFile(reportPath + "\\roleSubreport.jrxml");
 
             // 編譯 .jrxml 文件成為 JasperReport 對象
             JasperReport jasperReport = JasperCompileManager.compileReport(reportPath + "\\user-rpt.jrxml");
@@ -67,7 +67,7 @@ public class UserReportService {
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, jrBeanCollectionDataSource);
 
             // 將報表導出為 PDF 文件
-            JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + "\\user-Rpt.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, reportPath + "\\user-Rpt-v3.pdf");
 
             System.out.println("Done");
 
